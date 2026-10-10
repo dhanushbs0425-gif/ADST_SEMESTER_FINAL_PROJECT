@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white py-3">
+                <h3 class="fw-bold mb-0"><i class="fa-solid fa-border-all text-primary me-2"></i>Multi-Seed Tray & Batch Analysis</h3>
+                <p class="text-muted small mb-0">Upload a tray image containing multiple seeds for automatic segmentation and per-seed inspection</p>
+            </div>
+            <div class="card-body p-4">
+                <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+                    
+                    <div class="drop-zone mb-4" id="drop-zone">
+                        <i class="fa-solid fa-images text-success"></i>
+                        <h5>Drag & Drop Multi-Seed Tray Image Here</h5>
+                        <p class="text-muted small mb-2">OpenCV Watershed segmentation will automatically separate and inspect every seed</p>
+                        <span class="btn btn-outline-success btn-sm">Browse Tray Image</span>
+                        <input type="file" name="file" id="file-input" class="d-none" accept="image/*" required>
+                    </div>
+
+                    <div id="preview-container" class="mb-4 text-center d-none">
+                        <h6 class="fw-bold text-muted mb-2">Tray Image Preview:</h6>
+                        <div class="result-img-box d-inline-block" style="max-width: 350px;">
+                            <img id="image-preview" src="#" alt="Preview">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Select AI Model:</label>
+                        <select name="model_type" class="form-select">
+                            <option value="dl" selected>Two-Stage Deep Learning (MobileNetV3)</option>
+                            <option value="ml">Traditional Computer Vision + ML (SVM / Random Forest)</option>
+                        </select>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success btn-lg"><i class="fa-solid fa-play me-2"></i>Run Batch Tray Analysis</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section text-center">
+    <div class="py-4">
+        <h1 class="display-4 fw-bold mb-3">SeedSense <span class="text-primary">AI</span></h1>
+        <p class="lead text-light mb-4">Multi-Seed Identification, Automated Seed Quality & Defect Detection System</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{{ url_for('upload') }}" class="btn btn-primary btn-lg px-4"><i class="fa-solid fa-upload me-2"></i>Analyze Single Seed</a>
+            <a href="{{ url_for('batch') }}" class="btn btn-outline-light btn-lg px-4"><i class="fa-solid fa-layer-group me-2"></i>Batch / Tray Analysis</a>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="metric-card h-100 text-center">
+            <div class="p-3 bg-primary bg-opacity-10 rounded-circle d-inline-block mb-3">
+                <i class="fa-solid fa-microscope text-primary fs-2"></i>
+            </div>
+            <h4>Stage 1: Species AI</h4>
+            <p class="text-muted">Classifies seed species using PyTorch MobileNetV3 deep learning trained on real agricultural seed image datasets.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="metric-card h-100 text-center">
+            <div class="p-3 bg-success bg-opacity-10 rounded-circle d-inline-block mb-3">
+                <i class="fa-solid fa-heart-pulse text-success fs-2"></i>
+            </div>
+            <h4>Stage 2: Quality & Defect</h4>
+            <p class="text-muted">Detects whether seeds are Healthy or Defective/Damaged and pinpoints exact defect types (Broken, Skin-damaged, Spotted, Discolored).</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="metric-card h-100 text-center">
+            <div class="p-3 bg-warning bg-opacity-10 rounded-circle d-inline-block mb-3">
+                <i class="fa-solid fa-border-all text-warning fs-2"></i>
+            </div>
+            <h4>OpenCV Watershed Segmentation</h4>
+            <p class="text-muted">Automatically segments multi-seed tray images into individual crops, annotating every seed with bounding boxes and confidence score.</p>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body p-4">
+        <h3 class="fw-bold mb-3"><i class="fa-solid fa-list-check me-2 text-primary"></i>Supported Seed Categories & Datasets</h3>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Seed Category</th>
+                        <th>Status</th>
+                        <th>Quality Assessment</th>
+                        <th>Defect Types Supported</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Rice</strong></td>
+                        <td><span class="badge bg-success">AVAILABLE</span></td>
+                        <td>Healthy / Defective</td>
+                        <td>Basmati, Arborio, Jasmine, Ipsala, Karacadag varieties</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Maize / Corn</strong></td>
+                        <td><span class="badge bg-success">AVAILABLE</span></td>
+                        <td>Healthy / Defective</td>
+                        <td>Broken, Skin-damaged, Black Spotted</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Soybean</strong></td>
+                        <td><span class="badge bg-success">AVAILABLE</span></td>
+                        <td>Healthy / Defective</td>
+                        <td>Broken / Crushed, Impurity / Discolored</td>
+                    </tr>
+                    <tr class="table-secondary text-muted">
+                        <td>Wheat, Groundnut, Chickpea, Gram, Lentil, Sunflower</td>
+                        <td><span class="badge bg-secondary">INSUFFICIENT REAL DATA</span></td>
+                        <td>N/A</td>
+                        <td>Marked unsupported to comply with strict NO FABRICATION policy</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

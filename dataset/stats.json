@@ -1,0 +1,31 @@
+{
+    "train": {
+        "Broken": 140,
+        "Immature": 140,
+        "Intact": 140,
+        "Skin-damaged": 140,
+        "Spotted": 140
+    },
+    "val": {
+        "Broken": 30,
+        "Immature": 30,
+        "Intact": 30,
+        "Skin-damaged": 30,
+        "Spotted": 30
+    },
+    "test": {
+        "Broken": 30,
+        "Immature": 30,
+        "Intact": 30,
+        "Skin-damaged": 30,
+        "Spotted": 30
+    },
+    "total_per_class": {
+        "Broken": 200,
+        "Immature": 200,
+        "Intact": 200,
+        "Skin-damaged": 200,
+        "Spotted": 200
+    },
+    "total_images": 1000
+}

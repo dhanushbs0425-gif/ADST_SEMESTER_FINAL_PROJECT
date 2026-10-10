@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-primary text-white py-3">
+                <h3 class="fw-bold mb-0"><i class="fa-solid fa-circle-info me-2"></i>About SeedSense AI</h3>
+            </div>
+            <div class="card-body p-4">
+                <h4 class="fw-bold text-dark mb-3">System Architecture & Technical Overview</h4>
+                <p>SeedSense AI is an autonomous, full-stack Deep Learning & Computer Vision web application designed for agricultural seed classification, quality inspection, and defect detection.</p>
+                
+                <h5 class="fw-bold text-primary mt-4 mb-3">Two-Stage AI Classification Workflow</h5>
+                <div class="bg-light p-3 border rounded mb-4">
+                    <pre class="mb-0 font-monospace">
+Input Seed Image / Tray Image
+   │
+   ├──► OpenCV Denoising & Watershed Segmentation
+   │       └──► Individual Seed Extraction & Bounding Boxes
+   │
+   ├──► STAGE 1: Seed Species Classification (MobileNetV3)
+   │       ├──► Rice / Maize / Soybean
+   │       └──► Unknown / Unsupported Check (Confidence < 0.55)
+   │
+   └──► STAGE 2: Seed Quality & Defect Type Classification (MobileNetV3)
+           ├──► Healthy vs Defective / Damaged
+           └──► Defect Type: Broken, Skin-damaged, Spotted, Discolored
+                    </pre>
+                </div>
+
+                <h5 class="fw-bold text-primary mt-4 mb-3">Computer Vision & Feature Engineering</h5>
+                <ul>
+                    <li><strong>Pre-processing:</strong> Gaussian Denoising, Otsu Thresholding, Morphological Opening & Closing.</li>
+                    <li><strong>Segmentation:</strong> OpenCV Distance Transform + Watershed Algorithm for separating touching seeds.</li>
+                    <li><strong>Feature Extraction:</strong> 12 Color Features (RGB/HSV mean & std), 8 Shape Features (Area, Perimeter, Aspect Ratio, Circularity, Solidity, Extent), 16 Texture Features (GLCM Contrast, Homogeneity, Energy, Correlation).</li>
+                    <li><strong>ML Classifiers:</strong> SVM, Random Forest, K-Nearest Neighbors (KNN), Logistic Regression.</li>
+                    <li><strong>Deep Learning Architecture:</strong> PyTorch Transfer Learning with MobileNetV3 Small.</li>
+                </ul>
+
+                <h5 class="fw-bold text-primary mt-4 mb-3">System Features</h5>
+                <ul>
+                    <li>Single & Tray/Batch Image Analysis</li>
+                    <li>Visual Bounding Box Annotations with Confidence Scores</li>
+                    <li>SQLite Database History Storage</li>
+                    <li>Downloadable PDF Reports generated via ReportLab</li>
+                    <li>Empirical performance dashboard with zero data fabrication</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1"><i class="fa-solid fa-clock-rotate-left text-primary me-2"></i>Analysis History</h2>
+        <p class="text-muted mb-0">Records stored in SQLite Database</p>
+    </div>
+    <a href="{{ url_for('upload') }}" class="btn btn-primary"><i class="fa-solid fa-plus me-1"></i>New Analysis</a>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+        {% if records %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Date & Time</th>
+                        <th>Filename</th>
+                        <th>Condition</th>
+                        <th>Total Seeds</th>
+                        <th>Healthy %</th>
+                        <th>Model</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in records %}
+                    <tr>
+                        <td><strong>#{{ r.id }}</strong></td>
+                        <td class="small text-muted">{{ r['date'] if r['date'] is defined else 'N/A' }}</td>
+                        <td class="text-truncate" style="max-width: 150px;">{{ r['filename'] }}</td>
+                        <td>
+                            {% set cond = r['condition'] if r['condition'] is defined else 'Healthy' %}
+                            {% if 'Healthy' in cond %}
+                                <span class="badge bg-success">Healthy</span>
+                            {% else %}
+                                <span class="badge bg-danger">Defective</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ r['total_seeds'] }}</td>
+                        <td>
+                            {% set hp = r['healthy_percentage'] if r['healthy_percentage'] is defined else 0.0 %}
+                            <span class="badge {% if hp >= 80 %}bg-success{% elif hp >= 50 %}bg-warning{% else %}bg-danger{% endif %}">
+                                {{ "%.1f"|format(hp) }}%
+                            </span>
+                        </td>
+                        <td><span class="badge bg-secondary">{{ r.model_used }}</span></td>
+                        <td>
+                            <a href="{{ url_for('results', record_id=r.id) }}" class="btn btn-sm btn-outline-primary me-1"><i class="fa-solid fa-eye me-1"></i>View</a>
+                            <a href="{{ url_for('download_pdf', record_id=r.id) }}" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-file-pdf me-1"></i>PDF</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="p-5 text-center text-muted">
+            <i class="fa-solid fa-folder-open fs-1 mb-3"></i>
+            <h5>No analysis history records found</h5>
+            <p>Upload a seed image to create your first analysis record.</p>
+            <a href="{{ url_for('upload') }}" class="btn btn-primary">Upload Seed Image</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

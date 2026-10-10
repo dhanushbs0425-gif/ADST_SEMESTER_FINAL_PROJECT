@@ -1,0 +1,3 @@
+"""
+SeedSense AI Backend Package
+"""

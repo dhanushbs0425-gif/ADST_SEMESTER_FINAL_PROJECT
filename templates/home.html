@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Home - SeedSense AI (All Seeds Quality System){% endblock %}
+
+{% block content %}
+<div class="row align-items-center mb-5 bg-white p-5 rounded-4 shadow-sm">
+    <div class="col-lg-7">
+        <h1 class="display-5 fw-bold text-success mb-3">Automated Seed Quality Inspection for All Seeds</h1>
+        <p class="lead text-secondary mb-4">
+            SeedSense AI provides universal defect detection, species identity verification, 
+            and purity percentage assessment across all agricultural seed types (Soybean, Corn, Wheat, Rice, Sunflower, Cotton, Barley) using Computer Vision & Deep Learning.
+        </p>
+        <div class="d-flex gap-3">
+            <a href="{{ url_for('upload') }}" class="btn btn-success btn-lg px-4 fw-semibold">
+                <i class="fa-solid fa-upload me-2"></i> Start Seed Analysis
+            </a>
+            <a href="{{ url_for('performance') }}" class="btn btn-outline-success btn-lg px-4 fw-semibold">
+                <i class="fa-solid fa-chart-pie me-2"></i> View AI Accuracy
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-5 text-center mt-4 mt-lg-0">
+        <img src="https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=600&q=80" alt="Seed Inspection" class="img-fluid rounded-4 shadow">
+    </div>
+</div>
+
+<!-- Key Performance Stats -->
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card stat-card p-4 bg-white text-center">
+            <div class="stat-icon mb-2"><i class="fa-solid fa-microscope text-success"></i></div>
+            <h3 class="fw-bold text-dark">{{ total_analyses }}</h3>
+            <p class="text-muted mb-0">Total Seed Tray Inspections</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card p-4 bg-white text-center">
+            <div class="stat-icon mb-2"><i class="fa-solid fa-wheat-awn text-primary"></i></div>
+            <h3 class="fw-bold text-dark">{{ total_seeds_processed }}</h3>
+            <p class="text-muted mb-0">Total Individual Seeds Processed</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card p-4 bg-white text-center">
+            <div class="stat-icon mb-2"><i class="fa-solid fa-award text-warning"></i></div>
+            <h3 class="fw-bold text-dark">{{ avg_purity }}%</h3>
+            <p class="text-muted mb-0">Average Seed Purity Rate</p>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Analyses Section -->
+<div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold text-success mb-0"><i class="fa-solid fa-history me-2"></i> Recent Seed Inspections</h4>
+        <a href="{{ url_for('history') }}" class="btn btn-sm btn-outline-success">View Full History</a>
+    </div>
+
+    {% if recent_analyses %}
+    <div class="table-responsive">
+        <table class="table table-hover align-middle custom-table">
+            <thead>
+                <tr>
+                    <th># ID</th>
+                    <th>Date / Time</th>
+                    <th>Seed Crop Species</th>
+                    <th>Total Seeds</th>
+                    <th>Intact (Healthy)</th>
+                    <th>Defective</th>
+                    <th>Purity %</th>
+                    <th>Model Used</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in recent_analyses %}
+                <tr>
+                    <td class="fw-bold">#{{ item.id }}</td>
+                    <td>{{ item.timestamp }}</td>
+                    <td><span class="badge bg-success-subtle text-success border border-success">{{ item.seed_type }}</span></td>
+                    <td><span class="badge bg-secondary fs-6">{{ item.total_seeds }}</span></td>
+                    <td><span class="badge bg-success fs-6">{{ item.intact }}</span></td>
+                    <td><span class="badge bg-danger fs-6">{{ item.defective }}</span></td>
+                    <td class="fw-bold text-success">{{ item.purity }}%</td>
+                    <td><span class="badge bg-info text-dark fs-6">{{ item.model_used }}</span></td>
+                    <td>
+                        <a href="{{ url_for('results', record_id=item.id) }}" class="btn btn-sm btn-success me-1">
+                            <i class="fa-solid fa-eye"></i> Results
+                        </a>
+                        <a href="{{ url_for('download_pdf', record_id=item.id) }}" class="btn btn-sm btn-outline-danger">
+                            <i class="fa-solid fa-file-pdf"></i> PDF
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center py-4 text-muted">
+        <i class="fa-solid fa-folder-open fa-3x mb-3 text-secondary"></i>
+        <p class="mb-0">No recent seed inspection records found. Upload an image to start!</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

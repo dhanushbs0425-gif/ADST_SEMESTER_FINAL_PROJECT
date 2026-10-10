@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mb-4">
+    <h2 class="fw-bold mb-1"><i class="fa-solid fa-chart-line text-primary me-2"></i>Model Performance Dashboard</h2>
+    <p class="text-muted mb-0">Empirical evaluation metrics calculated on test dataset for Traditional Machine Learning and PyTorch Deep Learning</p>
+</div>
+
+<!-- 1. Deep Learning Performance -->
+<div class="card shadow-sm border-0 mb-5">
+    <div class="card-header bg-primary text-white py-3">
+        <h4 class="mb-0 fw-bold"><i class="fa-solid fa-brain me-2"></i>Deep Learning Model Performance (MobileNetV3)</h4>
+    </div>
+    <div class="card-body p-4">
+        {% if dl_data and 'species_model' in dl_data %}
+        <div class="row g-4">
+            <!-- Species Model -->
+            <div class="col-md-4">
+                <div class="border rounded p-3 bg-light">
+                    <h5 class="fw-bold text-primary">Stage 1: Seed Species</h5>
+                    <p class="text-muted small mb-3">Model: PyTorch MobileNetV3 Small</p>
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item d-flex justify-content-between bg-transparent">
+                            <span>Accuracy:</span> <strong>{{ "%.2f"|format(dl_data.species_model.accuracy * 100) }}%</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-transparent">
+                            <span>Precision:</span> <strong>{{ "%.2f"|format(dl_data.species_model.precision * 100) }}%</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-transparent">
+                            <span>Recall:</span> <strong>{{ "%.2f"|format(dl_data.species_model.recall * 100) }}%</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-transparent">
+                            <span>F1-Score:</span> <strong>{{ "%.2f"|format(dl_data.species_model.f1_score * 100) }}%</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Quality Model -->
+            <div class="col-md-4">
+                <div class="border rounded p-3 bg-light">
+                    <h5 class="fw-bold text-success">Stage 2: Seed Quality</h5>
+                    <p class="text-muted small mb-3">Model: PyTorch MobileNetV3 Small</p>
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item d-flex justify-content-between bg-transparent">
+                            <span>Accuracy:</span> <strong>{{ "%.2f"|format(dl_data.quality_model.accuracy * 100) }}%</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-transparent">
+                            <span>Precision:</span> <strong>{{ "%.2f"|format(dl_data.quality_model.precision * 100) }}%</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-transparent">
+                            <span>Recall:</span> <strong>{{ "%.2f"|format(dl_data.quality_model.recall * 100) }}%</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-transparent">
+                            <span>F1-Score:</span> <strong>{{ "%.2f"|format(dl_data.quality_model.f1_score * 100) }}%</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Defect Model -->
+            <div class="col-md-4">
+                <div class="border rounded p-3 bg-light">
+                    <h5 class="fw-bold text-warning">Stage 2: Defect Type</h5>
+                    <p class="text-muted small mb-3">Model: PyTorch MobileNetV3 Small</p>
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item d-flex justify-content-between bg-transparent">
+                            <span>Accuracy:</span> <strong>{{ "%.2f"|format(dl_data.defect_model.accuracy * 100) }}%</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-transparent">
+                            <span>Precision:</span> <strong>{{ "%.2f"|format(dl_data.defect_model.precision * 100) }}%</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-transparent">
+                            <span>Recall:</span> <strong>{{ "%.2f"|format(dl_data.defect_model.recall * 100) }}%</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-transparent">
+                            <span>F1-Score:</span> <strong>{{ "%.2f"|format(dl_data.defect_model.f1_score * 100) }}%</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="text-center py-4 text-muted">
+            <p>Deep Learning models training results pending or model files not loaded.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- 2. Traditional Machine Learning Performance -->
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-dark text-white py-3">
+        <h4 class="mb-0 fw-bold"><i class="fa-solid fa-gears me-2"></i>Traditional Machine Learning Comparison (CV Features + ML)</h4>
+    </div>
+    <div class="card-body p-4">
+        {% if ml_data and 'species_results' in ml_data %}
+        <h5 class="fw-bold text-dark mb-3">Species Classification Models Comparison</h5>
+        <div class="table-responsive mb-4">
+            <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Algorithm</th>
+                        <th>Accuracy</th>
+                        <th>Precision</th>
+                        <th>Recall</th>
+                        <th>F1-Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for clf_name, res in ml_data.species_results.items() %}
+                    <tr {% if clf_name == ml_data.best_species %}class="table-success fw-bold"{% endif %}>
+                        <td>
+                            {{ clf_name }}
+                            {% if clf_name == ml_data.best_species %}
+                                <span class="badge bg-success ms-2">BEST</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ "%.2f"|format(res.accuracy * 100) }}%</td>
+                        <td>{{ "%.2f"|format(res.precision * 100) }}%</td>
+                        <td>{{ "%.2f"|format(res.recall * 100) }}%</td>
+                        <td>{{ "%.2f"|format(res.f1_score * 100) }}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-4 text-muted">
+            <p>Traditional ML model metrics pending or not trained.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

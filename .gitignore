@@ -1,0 +1,29 @@
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# Large datasets & zip archives
+*.zip
+data/*.zip
+
+# Uploaded test images
+uploads/upload_*
+
+# Environment & Secrets
+.env
+*.env
+*.pem
+
+# Dependencies
+node_modules/
+
+# OS metadata
+.DS_Store
+Thumbs.db

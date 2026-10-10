@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mb-4">
+    <h2 class="fw-bold mb-1"><i class="fa-solid fa-database text-primary me-2"></i>Dataset Information & Verification Report</h2>
+    <p class="text-muted mb-0">Summary of real public seed datasets acquired and organized</p>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-success text-white py-3">
+                <h4 class="mb-0 fw-bold"><i class="fa-solid fa-circle-check me-2"></i>Supported Seed Species</h4>
+            </div>
+            <div class="card-body p-0">
+                {% if report and 'supported_seed_types' in report %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Species</th>
+                                <th>Images</th>
+                                <th>Train / Val / Test Split</th>
+                                <th>Quality Labels</th>
+                                <th>Defects Supported</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for s in report.supported_seed_types %}
+                            <tr>
+                                <td><strong>{{ s.seed_type }}</strong></td>
+                                <td><span class="badge bg-primary fs-6">{{ s.total_images }}</span></td>
+                                <td class="small">{{ s.train_count }} / {{ s.val_count }} / {{ s.test_count }}</td>
+                                <td><span class="badge bg-success">Healthy / Defective</span></td>
+                                <td>{{ s.defect_labels | join(', ') }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-secondary text-white py-3">
+                <h4 class="mb-0 fw-bold"><i class="fa-solid fa-triangle-exclamation me-2"></i>Unsupported Requested Species</h4>
+            </div>
+            <div class="card-body p-0">
+                {% if report and 'unsupported_seed_types' in report %}
+                <div class="table-responsive">
+                    <table class="table table-striped align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Requested Seed Category</th>
+                                <th>Status</th>
+                                <th>Reasoning / Documentation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for u in report.unsupported_seed_types %}
+                            <tr>
+                                <td><strong>{{ u.seed_type }}</strong></td>
+                                <td><span class="badge bg-secondary">{{ u.status }}</span></td>
+                                <td class="small text-muted">{{ u.reason }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-white py-3">
+        <h4 class="fw-bold mb-0"><i class="fa-solid fa-folder-tree text-primary me-2"></i>Public Dataset Sources & Citation Details</h4>
+    </div>
+    <div class="card-body p-4">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="border rounded p-3 bg-light">
+                    <h5 class="fw-bold text-dark">1. Rice Seed Dataset</h5>
+                    <p class="text-muted small mb-2"><strong>Source:</strong> Hugging Face (nateraw/rice-image-dataset)</p>
+                    <p class="text-muted small mb-2"><strong>License:</strong> CC BY 4.0</p>
+                    <p class="text-muted small mb-0">Contains 75,000 high-resolution images of 5 Rice seed varieties (Arborio, Basmati, Ipsala, Jasmine, Karacadag).</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="border rounded p-3 bg-light">
+                    <h5 class="fw-bold text-dark">2. Maize / Corn Grain Dataset</h5>
+                    <p class="text-muted small mb-2"><strong>Source:</strong> Hugging Face (AdrianaCasadei/CornGrain)</p>
+                    <p class="text-muted small mb-2"><strong>License:</strong> CC BY 4.0</p>
+                    <p class="text-muted small mb-0">Contains annotated YOLO bounding box tray images of Corn seeds categorized into Intact, Skin-damaged, Black-spotted, and Foreign/Broken.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="border rounded p-3 bg-light">
+                    <h5 class="fw-bold text-dark">3. Mechanized Soybean Dataset</h5>
+                    <p class="text-muted small mb-2"><strong>Source:</strong> Hugging Face & Data in Brief (2024)</p>
+                    <p class="text-muted small mb-2"><strong>License:</strong> CC BY 4.0</p>
+                    <p class="text-muted small mb-0">Contains original harvest images and segmentation mask color maps (Green = Normal, Red = Crushed, Yellow = Impurity).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
