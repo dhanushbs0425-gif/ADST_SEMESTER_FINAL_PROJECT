@@ -1,7 +1,4 @@
-# SeedSense AI
-
-## Multi-Seed Identification and Automated Seed Quality & Defect Detection System
-
+## Automated Seed Quality Identification and Defect Classification Using Deep Learning and Computer Vision
 SeedSense AI is a complete, full-stack AI/ML, Computer Vision, Deep Learning, and Data Science project that provides automated seed species identification, health quality assessment (Healthy vs. Defective/Damaged), and detailed defect categorization.
 
 ---
